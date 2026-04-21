@@ -16,4 +16,12 @@ public class CalendarManager{
 	public ArrayList<Year> getYears(){
 		return null;
 	}
+
+	public Event find(String eventPrefix) {
+		return null;
+	}
+
+	public Event find(String nameOfHoliday) {
+		return null;
+	}
 }

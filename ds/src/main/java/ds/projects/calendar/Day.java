@@ -9,7 +9,7 @@ public class Day{
 	}
 
 	public boolean addEvent() {
-
+		return false;
 	}
 
 	public ArrayList<Event> getEvents(){
