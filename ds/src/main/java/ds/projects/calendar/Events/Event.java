@@ -1,4 +1,4 @@
-package ds.projects.calendar; 
+package ds.projects.events.calendar; 
 
 import java.util.ArrayList;
 
