@@ -1,11 +1,11 @@
-package ds.projects.calendar; 
+package ds.projects.calendar.events; 
 
 import java.util.ArrayList;
 
 public abstract class Event{
 
-	public Event(){
+	public void addTitle();
 
-	}
+	public void addDescription();
 
 }
