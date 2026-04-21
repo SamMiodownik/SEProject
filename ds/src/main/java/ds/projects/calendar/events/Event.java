@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public abstract class Event{
 
-	public void addTitle();
+	public void setTitle();
 
-	public void addDescription();
+	public void setDescription();
 
 }
