@@ -8,8 +8,8 @@ public class Month{
 
 	}
 
-	private boolean addDays() {
-		return false;
+	private void addDays() {
+
 	}
 
 	public ArrayList<Day> getDays(){
