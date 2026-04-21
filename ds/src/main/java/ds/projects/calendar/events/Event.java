@@ -6,6 +6,4 @@ public abstract class Event{
 
 	public void setTitle();
 
-	public void setDescription();
-
 }
