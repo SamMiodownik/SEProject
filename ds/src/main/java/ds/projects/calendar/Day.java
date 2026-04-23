@@ -1,6 +1,7 @@
 package ds.projects.calendar; 
 
-import ds.projects.calendar.events.Event; 
+import ds.projects.calendar.events.Event;
+import java.util.ArrayList; 
 
 public class Day{
 
@@ -8,13 +9,14 @@ public class Day{
 
 	protected HebrewDayOfWeek hebrewDay;
 
-	private Event[] events;
+	private ArrayList<Event> events;
 
 	protected enum EnglishDayOfWeek {SUNDAY, MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATUDAY}
 
 	protected enum HebrewDayOfWeek {YOM_RISHON , YOM_SHENI, YOM_SHLISHI, YOM_REVII, YOM_CHAMISHI, YOM_SHISHI, SHABBOS}
 
 	public Day(int dayOfWeek){
+		events = new ArrayList<>();
 		switch (dayOfWeek) {
 			case 1:
 				this.englishDay = EnglishDayOfWeek.SUNDAY;
@@ -49,16 +51,16 @@ public class Day{
 
 	public boolean addEvent(Event e) {
 		int x;
-		for(x = 0; events[x] != null; x++){
-			if(events[x].getTitle().equals(e.getTitle())){
+		for(x = 0; events.get(x) != null; x++){
+			if(events.get(x).getTitle().equals(e.getTitle())){
 				return false;
 			}
 		}
-		events[x] = e;
+		events(x) = e;
 		return true;
 	}
 
-	public Event[] getEvents(){
+	public ArrayList<Event> getEvents(){
 		return this.events;
 	}
 }
