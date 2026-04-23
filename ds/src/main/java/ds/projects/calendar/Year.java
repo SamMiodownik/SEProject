@@ -12,7 +12,7 @@ public class Year{
 		return false;
 	}
 
-	public ArrayList<Month> getMonths(){
+	public Month[] getMonths(){
 		return null;
 	}
 }

@@ -13,7 +13,7 @@ public class CalendarManager{
 
 	}
 
-	public ArrayList<Year> getYears(){
+	public Year[] getYears(){
 		return null;
 	}
 

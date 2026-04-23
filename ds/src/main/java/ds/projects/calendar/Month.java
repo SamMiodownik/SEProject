@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Month{
 
-	public Month(){
+	protected enum Months {JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER, TISHREI, CHESHVAN, KISLEV, SHVAT, ADDAR_ALEF, ADDAR_BET, NISSAN, IYAR, SIVAN, TAMUZ, AV, ELLUL}
+
+	public Month(int Length, Months month){
 
 	}
 
@@ -12,7 +14,11 @@ public class Month{
 
 	}
 
-	public ArrayList<Day> getDays(){
+	public Day[] getDays(){
 		return null;
+	}
+
+	public int lenght() {
+
 	}
 }
