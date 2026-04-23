@@ -9,4 +9,12 @@ public class PersonalEvent extends Event{
 
 	}
 
+	public void setDescription(String string) {
+
+	}
+
+	public String getDescription() {
+		return null;
+	}
+
 }

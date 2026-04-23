@@ -4,6 +4,14 @@ import java.util.ArrayList;
 
 public abstract class Event{
 
-	public void setTitle();
+	private title;
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void getTitle() {
+		return this.title;
+	}
 
 }
