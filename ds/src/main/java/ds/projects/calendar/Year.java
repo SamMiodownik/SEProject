@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 public class Year{
 
+	private int name;
+
 	private Month[] months;
 
-	public Year(int length){
-		months = new Month[length];
+	public Year(int yearNumber, int monthLength){
+		this.name = yearNumber;
+		this.months = new Month[monthLength];
 	}
 
 	private void addMonth(Month month, int number) {
