@@ -44,11 +44,11 @@ public class DayTest{
 	@Test
 	void getEnglishDayOfWeek(){
 		Day day = new Day(3);
-		assertEquals(day.getEnglishDayOfWeek(), Day.EnglishDayOfWeek.TUESDAY);
+		assertEquals(day.englishDay, Day.EnglishDayOfWeek.TUESDAY);
 	}
 	@Test
 	void getHebrewDayOfWeek(){
 		Day day = new Day(7);
-		assertEquals(day.getHebrewDayOfWeek(), Day.getHebrewDayOfWeek.SHABBOS);
+		assertEquals(day.hebrewDay, Day.getHebrewDayOfWeek.SHABBOS);
 	}
 }
