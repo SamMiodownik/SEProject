@@ -1,19 +1,17 @@
 package ds.projects.calendar.events; 
 
-import ds.projects.calendar.Event;
+import ds.projects.calendar.events.Event;
 
 public class PersonalEvent extends Event{
 
-	public PersonalEvent(){
-
-	}
+	private String description;
 
 	public void setDescription(String string) {
-
+		this.description = string;
 	}
 
 	public String getDescription() {
-		return null;
+		return this.description;
 	}
 
 }

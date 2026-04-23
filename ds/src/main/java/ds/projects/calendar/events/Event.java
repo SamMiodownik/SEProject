@@ -8,7 +8,7 @@ public abstract class Event{
 		this.title = title;
 	}
 
-	public void getTitle() {
+	public String getTitle() {
 		return this.title;
 	}
 

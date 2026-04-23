@@ -19,7 +19,11 @@ public class Day{
 	public Event[] getEvents(){
 		return null;
 	}
-	public EnglishDayOfWeek getEnglishDayOfWeek();
+	public EnglishDayOfWeek getEnglishDayOfWeek(){
+		return null;
+	}
 
-	public HebrewDayOfWeek getHebrewDayOfWeek();
+	public HebrewDayOfWeek getHebrewDayOfWeek(){
+		return null;
+	}
 }
