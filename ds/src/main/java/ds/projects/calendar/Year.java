@@ -4,17 +4,20 @@ import java.util.ArrayList;
 
 public class Year{
 
-	private Month[];
+	private Month[] months;
 
 	public Year(int length){
-
+		months = new Month[length];
 	}
 
-	private void addMonths(Month month) {
-
+	private void addMonth(Month month, int number) {
+		if(number > this.months.length){
+			throw new IllegalArgumentException("Year does not contain " + number + " months.");
+		}
+		months[number] = month;
 	}
 
 	public Month[] getMonths(){
-		return null;
+		return this.months;
 	}
 }
