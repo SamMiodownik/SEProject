@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class Year{
 
-	public Year(){
+	private Month[];
+
+	public Year(int length){
 
 	}
 
-	private boolean addMonths() {
-		return false;
+	private void addMonths(Month month) {
+
 	}
 
 	public Month[] getMonths(){

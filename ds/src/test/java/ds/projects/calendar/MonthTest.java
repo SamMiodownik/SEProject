@@ -12,7 +12,7 @@ public class MonthTest{
     	Day oneDay = new Day(1);
     	Day twoDay = new Day(2);
     	Day threeDay = new Day(3);
-    	Day[] output = new Day[30]
+    	Day[] output = new Day[30];
     }
 
     @Test
@@ -23,7 +23,7 @@ public class MonthTest{
     }
 
     @Test
-    public void monthHasCorrectNumOfDaya() {
+    public void monthHasCorrectNumOfDays() {
     	assertEquals(30, month.length());
     }
 

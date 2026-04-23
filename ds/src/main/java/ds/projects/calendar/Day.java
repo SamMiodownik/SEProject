@@ -4,9 +4,9 @@ import ds.projects.calendar.events.Event;
 
 public class Day{
 
-	private EnglishDayOfWeek englishDay;
+	protected EnglishDayOfWeek englishDay;
 
-	private HebrewDayOfWeek hebrewDay;
+	protected HebrewDayOfWeek hebrewDay;
 
 	private Event[] events;
 
@@ -15,7 +15,36 @@ public class Day{
 	protected enum HebrewDayOfWeek {YOM_RISHON , YOM_SHENI, YOM_SHLISHI, YOM_REVII, YOM_CHAMISHI, YOM_SHISHI, SHABBOS}
 
 	public Day(int dayOfWeek){
-
+		switch (dayOfWeek) {
+			case 1:
+				this.englishDay = EnglishDayOfWeek.SUNDAY;
+				this.hebrewDay = HebrewDayOfWeek.YOM_RISHON;
+				break;
+			case 2:
+				this.englishDay = EnglishDayOfWeek.MONDAY;
+				this.hebrewDay = HebrewDayOfWeek.YOM_SHENI;
+				break;
+			case 3:
+				this.englishDay = EnglishDayOfWeek.TUESDAY;
+				this.hebrewDay = HebrewDayOfWeek.YOM_SHLISHI;
+				break;
+			case 4:
+				this.englishDay = EnglishDayOfWeek.WENDESDAY;
+				this.hebrewDay = HebrewDayOfWeek.YOM_REVII;
+				break;
+			case 5:
+				this.englishDay = EnglishDayOfWeek.THURSDAY;
+				this.hebrewDay = HebrewDayOfWeek.YOM_CHAMISHI;
+				break;
+			case 6:
+				this.englishDay = EnglishDayOfWeek.FRIDAY;
+				this.hebrewDay = HebrewDayOfWeek.YOM_SHISHI;
+				break;
+			case 7:
+				this.englishDay = EnglishDayOfWeek.SATUDAY;
+				this.hebrewDay = HebrewDayOfWeek.SHABBOS;
+				break;
+		}
 	}
 
 	public boolean addEvent(Event e) {
@@ -31,12 +60,5 @@ public class Day{
 
 	public Event[] getEvents(){
 		return this.events;
-	}
-	public EnglishDayOfWeek getEnglishDayOfWeek(){
-		return this.englishDay;
-	}
-
-	public HebrewDayOfWeek getHebrewDayOfWeek(){
-		return this.hebrewDay;
 	}
 }
