@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Event{
 
-	private title;
+	private String title;
 
 	public void setTitle(String title) {
 		this.title = title;
