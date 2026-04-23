@@ -1,7 +1,5 @@
 package ds.projects.calendar.events; 
 
-import java.util.ArrayList;
-
 public abstract class Event{
 
 	private String title;

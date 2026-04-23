@@ -1,14 +1,14 @@
 package ds.projects.calendar; 
 
-import java.util.ArrayList;
+import ds.projects.calendar.events.Event; 
 
 public class Day{
 
-	enum EnglishDayOfWeek {SUNDAY, MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATUDAY}
+	protected enum EnglishDayOfWeek {SUNDAY, MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATUDAY}
 
-	enum HebrewDayOfWeek {YOM_RISHON , YOM_SHENI, YOM_SHLISHI, YOM_REVII, YOM_CHAMISHI, YOM_SHISHI, SHABBOS}
+	protected enum HebrewDayOfWeek {YOM_RISHON , YOM_SHENI, YOM_SHLISHI, YOM_REVII, YOM_CHAMISHI, YOM_SHISHI, SHABBOS}
 
-	public Day(){
+	public Day(int dayOfWeek){
 
 	}
 
@@ -16,7 +16,10 @@ public class Day{
 		return false;
 	}
 
-	public ArrayList<Event> getEvents(){
+	public Event[] getEvents(){
 		return null;
 	}
+	public EnglishDayOfWeek getEnglishDayOfWeek();
+
+	public HebrewDayOfWeek getHebrewDayOfWeek();
 }
