@@ -8,7 +8,7 @@ public class Month{
 
 	}
 
-	private void addDays() {
+	private void addDay(Day day) {
 
 	}
 
