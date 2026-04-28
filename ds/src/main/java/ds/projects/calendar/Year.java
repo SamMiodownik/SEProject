@@ -13,11 +13,17 @@ public class Year{
 		this.months = new Month[monthLength];
 	}
 
-	private void addMonth(Month month, int number) {
-		if(number > this.months.length){
-			throw new IllegalArgumentException("Year does not contain " + number + " months.");
-		}
+	protected void addMonth(Month month){
+		int index = this.findNextMonth();
 		months[number] = month;
+	}
+
+	private int findNextMonth(){
+		int x = 0;
+		while(months[x] != null){
+			x++;
+		}
+		return x;
 	}
 
 	public Month[] getMonths(){

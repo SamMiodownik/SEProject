@@ -44,11 +44,17 @@ public class Month{
 
 	}
 
-	public void addDay(Day day, int number) {
-		if(number > this.days.length){
-			throw new IllegalArgumentException("Month does not contain " + number + " days.");
+	protected void addDay(Day day) {
+		int index = this.findNextDay();
+		this.days[index] = month;
+	}
+
+	private int findNextDay(){
+		int x = 0;
+		while(days[x] != null){
+			x++;
 		}
-		this.days[number] = month;
+		return x;
 	}
 
 	public Day[] getDays(){
