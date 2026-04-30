@@ -1,7 +1,6 @@
 package ds.projects.calendar; 
 
-import ds.projects.calendar.events.Event;
-import java.util.ArrayList; 
+import ds.projects.calendar.events.Event; 
 
 public class Day{
 
@@ -9,58 +8,70 @@ public class Day{
 
 	protected HebrewDayOfWeek hebrewDay;
 
-	private ArrayList<Event> events;
+	private Event[] events;
+
+	private int dayNum;
 
 	protected enum EnglishDayOfWeek {SUNDAY, MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATUDAY}
 
 	protected enum HebrewDayOfWeek {YOM_RISHON , YOM_SHENI, YOM_SHLISHI, YOM_REVII, YOM_CHAMISHI, YOM_SHISHI, SHABBOS}
 
 	public Day(int dayOfWeek){
-		events = new ArrayList<>();
 		switch (dayOfWeek) {
-			case 1:
+			case 0:
 				this.englishDay = EnglishDayOfWeek.SUNDAY;
 				this.hebrewDay = HebrewDayOfWeek.YOM_RISHON;
+				this.dayNum = 1;
 				break;
-			case 2:
+			case 1:
 				this.englishDay = EnglishDayOfWeek.MONDAY;
 				this.hebrewDay = HebrewDayOfWeek.YOM_SHENI;
+				this.dayNum = 2;
 				break;
-			case 3:
+			case 2:
 				this.englishDay = EnglishDayOfWeek.TUESDAY;
 				this.hebrewDay = HebrewDayOfWeek.YOM_SHLISHI;
+				this.dayNum = 3;
 				break;
-			case 4:
+			case 3:
 				this.englishDay = EnglishDayOfWeek.WENDESDAY;
 				this.hebrewDay = HebrewDayOfWeek.YOM_REVII;
+				this.dayNum = 4;
 				break;
-			case 5:
+			case 4:
 				this.englishDay = EnglishDayOfWeek.THURSDAY;
 				this.hebrewDay = HebrewDayOfWeek.YOM_CHAMISHI;
+				this.dayNum = 5;
 				break;
-			case 6:
+			case 5:
 				this.englishDay = EnglishDayOfWeek.FRIDAY;
 				this.hebrewDay = HebrewDayOfWeek.YOM_SHISHI;
+				this.dayNum = 6;
 				break;
-			case 7:
+			case 6:
 				this.englishDay = EnglishDayOfWeek.SATUDAY;
 				this.hebrewDay = HebrewDayOfWeek.SHABBOS;
+				this.dayNum = 7;
 				break;
 		}
+	}
+
+	public int getDayNum() {
+		return this.dayNum;
 	}
 
 	public boolean addEvent(Event e) {
 		int x;
-		for(x = 0; events.get(x) != null; x++){
-			if(events.get(x).getTitle().equals(e.getTitle())){
+		for(x = 0; events[x] != null; x++){
+			if(events[x].getTitle().equals(e.getTitle())){
 				return false;
 			}
 		}
-		events(x) = e;
+		events[x] = e;
 		return true;
 	}
 
-	public ArrayList<Event> getEvents(){
+	public Event[] getEvents(){
 		return this.events;
 	}
 }
