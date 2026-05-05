@@ -4,9 +4,10 @@ import java.util.*;
 import ds.projects.calendar.events.PersonalEvent;
 
 public class Display {
-	CalendarManager cm;
-	Scanner scanner;
-	int latestHebrewYear = 5790;
+	private CalendarManager cm;
+	private Scanner scanner;
+	private int latestHebrewYear = 5790;
+
 	public static void main(String args[]) {
 		cm = new CalendarManager();
 		scanner = new Scanner(System.in);
@@ -83,16 +84,22 @@ public class Display {
 	private void getDayMonth(int englishOrHebrew, int index){
 		Year[] years;
 		if(englishOrHebrew == 1){
-			years = cm.getHebrewYears(); //Need to make this method in CalendarManager!
+			years = cm.getHebrewYears();
 		}else{
-			years = cm.getEnglishYears(); //Need to make this method in CalendarManager!
+			years = cm.getEnglishYears();
 		}
-		if(index > years.length-1){
-			//Not sure how this is going to be implemented yet but we will have to generate more years!
+		if(index > latestHebrewYear - 5777){
+			this.addYears();
 		}
 		System.out.println("Please enter which month you would like to access in number form (Ex: \"3\", \"11\".");
 		int monthIndex = scannerOptions(1, years[index].length) - 1;
 		getDayFinal(years[index].getMonths()[monthIndex]);
+	}
+
+	private void addYears(){
+		int newYear = latestHebrewYear + (index - (latestHebrewYear - 5777));
+		cm.addYears(newYear);
+		latestHebrewYear = newYear;
 	}
 
 	private void getDayFinal(Month month){
@@ -203,19 +210,14 @@ public class Display {
 		addEventMonth(2, year - 5777, evt);
 	}
 	private void addEventMonth(int englishOrHebrew, int index, PersonalEvent evt){
-		Year[] years;
-		if(englishOrHebrew == 1){
-			years = cm.getHebrewYears(); //Need to make this method in CalendarManager!
-		}else{
-			years = cm.getEnglishYears(); //Need to make this method in CalendarManager!
-		}
+		Year[] years = (englishOrHebrew == 1) ? cm.getHebrewYears() : cm.getEnglishYears();
 		System.out.println("Please enter which month you would like to add an event to in number form. (Ex: \"3\" -March, \"11\"-November)");
 		int monthIndex = scannerOptions(1, years[index].length) - 1;
 		getEventDay(years[index].getMonths()[monthIndex], evt);
 	}
 	private void getEventDay(Month month, PersonalEvent evt){
 		System.out.println("Please enter which day of the month you would like to add an event to.");
-		Day day = month[scannerOptions(1, month.length) -1;];
+		Day day = month[scannerOptions(1, month.length) -1];
 		addEvent(day, evt);
 	}
 	private void addEvent(Day day, PersonalEvent evt){
@@ -249,7 +251,7 @@ public class Display {
 	}
 	private void recurringEventByYear(int englishOrHebrew, PersonalEvent evt){
 		System.out.println("Which month would you like to add the yearly event to?");
-		int monthIndex
+		int monthIndex;
 		if(englishOrHebrew == 1){
 			monthIndex = scannerOptions(1, 12) -1;
 		}else{
@@ -276,9 +278,8 @@ public class Display {
 	}
 	private void recurringEventByMonth(int englishOrHebrew, PersonalEvent evt){
 		System.out.println("Which day of the month would you like to add a recurring event to?");
-		int day;
 		Year[] years = (englishOrHebrew == 1) ? cm.getEnglishYears : cm.getHebrewYears;
-		int = scannerOptions(1,31) -1;
+		int day = scannerOptions(1,31) -1;
 		for(Year year : years){
 			for(Month month : years.getMonths()){
 				if(month.getDays().length - 1 <= day){

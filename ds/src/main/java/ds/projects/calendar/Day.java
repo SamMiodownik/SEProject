@@ -18,7 +18,7 @@ public class Day{
 
 	private int hebrewYear;
 
-	private int hebrewMonth
+	private int hebrewMonth;
 
 	private boolean adarSheni;
 
@@ -130,12 +130,13 @@ public class Day{
 		str += "Events:\n" + printevents();
 	}
 	private String printevents(){
-		String str = ""
+		String str = "";
 		if(events[0] == null){
 			str += ("	This day has no events.");
 		}else{
+
 			for(Event evt : events){
-				str += "	" + evt.getTitle(); +"/n";
+				str += "	" + evt.getTitle() +"/n";
 			}
 		}
 	}
