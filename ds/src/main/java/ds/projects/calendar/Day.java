@@ -16,6 +16,20 @@ public class Day{
 
 	protected enum HebrewDayOfWeek {YOM_RISHON , YOM_SHENI, YOM_SHLISHI, YOM_REVII, YOM_CHAMISHI, YOM_SHISHI, SHABBOS}
 
+	private int hebrewYear;
+
+	private int hebrewMonth
+
+	private boolean adarSheni;
+
+	private int hebrewDay;
+
+	private int englishYear;
+
+	private int englishMonth;
+
+	private int englishDay;
+
 	public Day(int dayOfWeek){
 		switch (dayOfWeek) {
 			case 0:
@@ -73,5 +87,56 @@ public class Day{
 
 	public Event[] getEvents(){
 		return this.events;
+	}
+
+	protected void setHebrewYear(int year){
+		this.hebrewYear = year;
+	}
+	//month = 7 means that it is Adar Sheini. month = 8 means that it is Nissan, etc.
+	protected void setHebrewMonth(int month){
+		if(month == 7){
+			adarSheni = true;
+		}else{
+			if(month > 7){
+				this.hebrewMonth = month -1;
+			}else{
+				this.hebrewMonth = month;
+			}
+		}
+	}
+
+	protected void setHebrewDay(int day){
+		this.hebrewDay = day;
+	}
+
+	protected void setEnglishYear(int year){
+		this.englishYear = year;
+	}
+
+	protected void setEnglishMonth(int month){
+		this.englishMonth = month;
+	}
+
+	protected void setEnglishDay(int day){
+		this.englishDay = day;
+	}
+
+	public String toString(){
+		String hebrewMonthString = String.parseString(this.hebrewMonth);
+		if(adarSheni){
+			hebrewMonthString += "b";
+		}
+		String str = this.englishMonth + "/" + this.englishDay + "/" + this.englishYear + "			" + this.hebrewDay + "/" + this.hebrewMonthString + "/" + this.hebrewYear+"\n";
+		str += "Events:\n" + printevents();
+	}
+	private String printevents(){
+		String str = ""
+		if(events[0] == null){
+			str += ("	This day has no events.");
+		}else{
+			for(Event evt : events){
+				str += "	" + evt.getTitle(); +"/n";
+			}
+		}
 	}
 }
