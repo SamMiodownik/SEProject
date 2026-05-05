@@ -86,6 +86,9 @@ public class Display {
 		}else{
 			years = cm.getEnglishYears(); //Need to make this method in CalendarManager!
 		}
+		if(index > years.length-1){
+			//Not sure how this is going to be implemented yet but we will have to generate more years!
+		}
 		System.out.println("Please enter which month you would like to access in number form (Ex: \"3\", \"11\".");
 		int monthIndex = scannerOptions(1, years[index].length) - 1;
 		getDayFinal(years[index].getMonths()[monthIndex]);
