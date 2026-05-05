@@ -224,8 +224,12 @@ public class CalendarManager{
 		}
 	}
 
-	public Year[] getYears(){
-		return null;
+	public Year[] getEnglishYearsYears(){
+		return this.englishYears;
+	}
+
+	public Year[] getHebrewYearsYears(){
+		return this.hebrewYears;
 	}
 
 	public Event find(String eventPrefix) {
