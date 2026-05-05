@@ -6,10 +6,11 @@ import ds.projects.calendar.events.Event;
 
 public class CalendarManager{
 
+	private final int startYearHebrew = 5777;
+	private final int startYearEnglish = 2015;
 	private final int molad = 765433;
 	private final int leapYearMolad = molad * 13;
 	private final int nonLeapYearMolad = molad * 12;
-	private final int chalakim2016Molad = 177844; 
 	private final int chalakimInDay = 25920;
 	private final int chalakimInCompleteNonLaepYear = chalakimInDay * 355;
 	private final int chalakimInNormalNonLeapYear = chalakimInDay * 354;
@@ -17,45 +18,127 @@ public class CalendarManager{
 	private final int chalakimInCompleteLeapYear = chalakimInDay * 385;
 	private final int chalakimInNormalLeapYear = chalakimInDay * 384;
 	private final int chalakimInDeficentLeapYear = chalakimInDay * 383;
-	private int chalakimSinceBegingOfWeekLastMolad = chalakim2016Molad + chalakimInDay;
-	private final int startYearHebrew = 5777;
-	private final int startYearEnglish = 2016;
+	// 177844 = chalakim after 6 pm previous motzei shabbos for 5777 Molad
+	private int chalakimSinceBegingOfWeekLastMolad = 177844;
 	private int currentYearHebrew = startYearHebrew;
 	private int currentYearEnglish = startYearEnglish;
+	private int currentMonthEnglish = 0;
+	private int currentDayEnglish = 0;
+	private int d = 1;
 	private boolean previousYearWasALeapYear = true;
 	private Year[] englishYears;
 	private Year[] hebrewYears;
-	private int day = 1;
-
-// print(177844 + (765433* 12)) = 9363040
-// print(7 * 25920) = 181440
-//print(9363040 % 181440) = 109600
-// print(109600 // 25920) = 4
-// 
 
 	public CalendarManager() {
-		Year year = new Year(this.currentYearHebrew, 1);
-		calculateYear()
 		englishYears = new Year[10];
 		hebrewYears = new Year[10];
+		this.createFirstEnglishYear();
+		this.createFirstHebrewYear();
+	}
+
+	private Year[] doubleArray(Year[] oldYear) {
+		Year[] newYear = new Year[oldYear.length*2];
+		for (int i=0; i < oldYear.length; i++) {
+			newYear[i] = oldYear[i];
+		}
+		return newYear;
+	}
+
+	private void createFirstEnglishYear() {
+		Year year = new Year(2015, 3);
+		Month october = new Month(29, 10);
+		Month november = new Month(30, 11);
+		Month december = new Month(31, 12);
+		year.addMonth(october);
+		year.addMonth(november);
+		year.addMonth(december);
+		this.currentYearEnglish ++;
+	}
+
+	private void createFirstHebrewYear(){
+		Year currentYear = new Year(5777, 12);
+		addDeficientNonLeapYear(currentYear);
+		this.previousYearWasALeapYear = false;
+		this.currentYearHebrew++;
 	}
 
 	// peram month, startDay
-	// returns start day of next month
-	private int addMonthDays(Month month, int d) {
-		int length = month.length();
-		for (i=0; i<length; i++) {
-			Day day = new Day(d % 7);
+	private void addMonthDays(Month month) {
+		for (int i=0; i<month.getDays().length; i++) {
+			Day day = new Day(this.d);
 			month.addDay(day);
-			this.englishCallendarAddYear(day, d);
-			d++;
+			this.englishCallendarAdd(day);
+			this.d++;
 		}
-		return d % 7;
+		this.d = this.d % 7;
 	}
-private 
-	private int englishCallendarAddYear(Day day, int d) {
 
-		if ()
+	private void englishCallendarAdd(Day hebrewDay) {
+		Year year = this.englishYears[this.currentYearEnglish];
+		Month[] months = year.getMonths();
+		Month month = months[this.currentMonthEnglish];
+		Day[] days = month.getDays();
+		this.addEnglishDay(months, days, hebrewDay);
+	}
+
+	private void addEnglishDay(Month[] year, Day[] month, Day hebrewDay) {
+		if (this.currentDayEnglish >= month.length) {
+			if (this.currentMonthEnglish >= year.length) {
+				month = this.addEnglishYear();
+				this.currentMonthEnglish = 0;
+				this.currentDayEnglish = 0;
+			}
+			this.currentMonthEnglish ++;
+			month = year[this.currentMonthEnglish].getDays();
+			this.currentDayEnglish = 0;
+		}
+		month[this.currentDayEnglish] = hebrewDay;
+		this.currentDayEnglish ++;
+	}
+
+	private Day[] addEnglishYear() {
+		this.currentYearEnglish ++;
+		Year year = new Year(currentYearEnglish, 12);
+		this.addMonthsToYear(year);
+		Month[] months = year.getMonths();
+		Month month = months[0];
+		Day[] days = month.getDays();
+		if ((this.currentYearEnglish - this.startYearEnglish) < englishYears.length) {
+			this.englishYears = this.doubleArray(this.englishYears);
+		}
+		this.englishYears[this.currentYearEnglish - this.startYearEnglish] = year;
+		return days;
+	}
+
+	private void addMonthsToYear(Year year) {
+		Month january = new Month(31, 1);
+		Month march = new Month(31, 3);
+		Month may = new Month(31, 5);
+		Month july = new Month(31, 7);
+		Month august = new Month(31, 8);
+		Month october = new Month(31, 10);
+		Month december = new Month(31, 12);
+		
+		Month april = new Month(30, 4);
+		Month june = new Month(30, 6);
+		Month september = new Month(30, 9);
+		Month november = new Month(30, 11);
+
+		int febuaryDays = (this.currentYearEnglish % 4) == 0? 29:28;
+		Month febuary = new Month(febuaryDays, 2);
+
+		year.addMonth(january);
+		year.addMonth(febuary);
+		year.addMonth(march);
+		year.addMonth(april);
+		year.addMonth(may);
+		year.addMonth(june);
+		year.addMonth(july);
+		year.addMonth(august);
+		year.addMonth(september);
+		year.addMonth(october);
+		year.addMonth(november);
+		year.addMonth(december);
 	}
 
 	public void addYears(int untilYearHebrew) {
@@ -66,45 +149,48 @@ private
 
 	private void calculateYear() {
 		int yearInCycle = currentYearHebrew % 19;
-		boolean leapYear = (yearInCycle == 3) || (yearInCycle == 6) || (yearInCycle == 8) || (yearInCycle == 11) || (yearInCycle == 14) || (yearInCycle == 17) || (yearInCycle == 19);
+		boolean leapYear = (yearInCycle == 2) || (yearInCycle == 5) || (yearInCycle == 7) || (yearInCycle == 10) || (yearInCycle == 13) || (yearInCycle == 16) || (yearInCycle == 0);
 		int months = leapYear? 13:12;
 		Year year = new Year(this.currentYearHebrew, months);
 		if (leapYear) {
-			this.day = this.calculateLeapYear(year, this.day);
+			this.calculateLeapYear(year);
 			this.previousYearWasALeapYear = true;
 		} else {
-			this.day = this.calculateNonLeapYear(year, this.day);
+			this.calculateNonLeapYear(year);
 			this.previousYearWasALeapYear = false;
 		}
-		this.hebrewYears[currentYearHebrew - startYearHebrew] = year;
+		if ((this.currentYearHebrew - this.startYearHebrew) < hebrewYears.length) {
+			this.hebrewYears = this.doubleArray(this.hebrewYears);
+		}
+		this.hebrewYears[this.currentYearHebrew - this.startYearHebrew] = year;
 		this.currentYearHebrew++;
 	}
 
-	private int calculateLeapYear(Year year, int d) {
+	private void calculateLeapYear(Year year) {
 		int chalakimSinceBegingOfWeek = ((this.chalakimSinceBegingOfWeekLastMolad + this.leapYearMolad) % (7 * chalakimInDay));
 		int dayOfWeek = chalakimSinceBegingOfWeek / chalakimInDay;
 		int chalakimSinceBeginingOfDay = chalakimSinceBegingOfWeek - (chalakimInDay * (dayOfWeek));
 		boolean ruleA = false;
 		boolean ruleB = false;
 		// 19440 18 hours
-		} if (chalakimSinceBeginingOfDay < 19440) {
+		if (chalakimSinceBeginingOfDay < 19440) {
 			ruleA = true;
-			dayOfWeek++
+			dayOfWeek++;
 		}
 		if (dayOfWeek == 1 || dayOfWeek == 4 || dayOfWeek == 6 || dayOfWeek == 8) {
 			ruleB = true;
 			dayOfWeek++;
 		}
 		if (ruleA && ruleB) {
-			d = this.addCompleteLeapYear(year, d);
+			this.addCompleteLeapYear(year);
 		} else if (ruleA || ruleB) {
-			d = this.addNormalLeapYear(year, d);
+			this.addNormalLeapYear(year);
 		} else {
-			d = this.addDeficientLeapYear(year, d);
+			this.addDeficientLeapYear(year);
 		}
-		return d;
+	}
 
-	private int calculateNonLeapYear(Year year, int d) {
+	private void calculateNonLeapYear(Year year) {
 		int chalakimSinceBegingOfWeek = ((this.chalakimSinceBegingOfWeekLastMolad + this.nonLeapYearMolad) % (7 * chalakimInDay));
 		int dayOfWeek = chalakimSinceBegingOfWeek / chalakimInDay;
 		int chalakimSinceBeginingOfDay = chalakimSinceBegingOfWeek - (chalakimInDay * (dayOfWeek));
@@ -123,20 +209,19 @@ private
 		// 19440 18 hours
 		} else if (chalakimSinceBeginingOfDay < 19440) {
 			ruleA = true;
-			dayOfWeek++
+			dayOfWeek++;
 		}
 		if (dayOfWeek == 1 || dayOfWeek == 4 || dayOfWeek == 6 || dayOfWeek == 8) {
 			ruleB = true;
 			dayOfWeek++;
 		}
 		if (ruleA && ruleB) {
-			d = this.addCompleteNonLeapYear(year, d)
+			this.addCompleteNonLeapYear(year);
 		} else if (ruleA || ruleB) {
-			d = this.addNormalNonLeapYear(year, d)
+			this.addNormalNonLeapYear(year);
 		} else {
-			d = this.addDeficientNonLeapYear(year, d)
+			this.addDeficientNonLeapYear(year);
 		}
-		return d;
 	}
 
 	public Year[] getYears(){
@@ -150,158 +235,153 @@ private
 
 	// peram year, startDay
 	// return start day of next year
-	private int addDeficientNonLeapYear(Year year, int d) {
-		d = this.addTisrei(year, d);
+	private void addDeficientNonLeapYear(Year year) {
+		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		d = this.addMonthDays(cheshvan, d);
+		this.addMonthDays(cheshvan);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(29, -3);
-		d = this.addMonthDays(kislev, d);
+		this.addMonthDays(kislev);
 		year.addMonth(kislev);
 
-		return this.addNonLeapYear(year, d);
+		this.addNonLeapYear(year);
 	}
 
-	private int addDeficientLeapYear(Year year, int d) {
-		d = this.addTisrei(year, d);
+	private void addDeficientLeapYear(Year year) {
+		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		d = this.addMonthDays(cheshvan, d);
+		this.addMonthDays(cheshvan);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(29, -3);
-		d = this.addMonthDays(kislev, d);
+		this.addMonthDays(kislev);
 		year.addMonth(kislev);
 
-		return this.addLeapYear(year, d);
+		this.addLeapYear(year);
 	}
 
-	private int addNormalNonLeapYear(Year year, int d) {
-		d = this.addTisrei(year, d);
+	private void addNormalNonLeapYear(Year year) {
+		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		d = this.addMonthDays(cheshvan, d);
+		this.addMonthDays(cheshvan);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		d = this.addMonthDays(kislev, d);
+		this.addMonthDays(kislev);
 		year.addMonth(kislev);
 
-		return this.addNonLeapYear(year, d);
+		this.addNonLeapYear(year);
 	}
 
-	private int addNormalLeapYear(Year year, int d) {
-		d = this.addTisrei(year, d);
+	private void addNormalLeapYear(Year year) {
+		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		d = this.addMonthDays(cheshvan, d);
+		this.addMonthDays(cheshvan);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		d = this.addMonthDays(kislev, d);
+		this.addMonthDays(kislev);
 		year.addMonth(kislev);
 
-		return this.addLeapYear(year, d);
+		this.addLeapYear(year);
 	}
 
-	private int addCompleteNonLeapYear(Year year, int d) {
-		d = this.addTisrei(year, d);
+	private void addCompleteNonLeapYear(Year year) {
+		this.addTisrei(year);
 
 		Month cheshvan = new Month(30, -2);
-		d = this.addMonthDays(cheshvan, d);
+		this.addMonthDays(cheshvan);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		d = this.addMonthDays(kislev, d);
+		this.addMonthDays(kislev);
 		year.addMonth(kislev);
 
-		return this.addNonLeapYear(year, d);
+		this.addNonLeapYear(year);
 	}
 
-	private int addCompleteLeapYear(Year year, int d) {
-		d = this.addTisrei(year, d);
+	private void addCompleteLeapYear(Year year) {
+		this.addTisrei(year);
 
 		Month cheshvan = new Month(30, -2);
-		d = this.addMonthDays(cheshvan, d);
+		this.addMonthDays(cheshvan);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		d = this.addMonthDays(kislev, d);
+		this.addMonthDays(kislev);
 		year.addMonth(kislev);
 
-		return this.addLeapYear(year, d);
+		this.addLeapYear(year);
+	}
 
-	private int addNonLeapYear(Year year int d) {
-		d = this.addTevetShvat(year, d);
+	private void addNonLeapYear(Year year) {
+		this.addTevetShvat(year);
 
 		Month adar = new Month(29, -7);
-		d = this.addMonthDays(adar, d);
+		this.addMonthDays(adar);
 		year.addMonth(adar);
 
-		return addYearEnd(year, d);
+		addYearEnd(year);
 	}
 
-	private int addLeapYear(Year year int d) {
-		d = this.addTevetShvat(year, d);
+	private void addLeapYear(Year year) {
+		this.addTevetShvat(year);
 
 		Month adar1 = new Month(29, -6);
-		d = this.addMonthDays(adar1, d);
+		this.addMonthDays(adar1);
 		year.addMonth(adar1);
 
 		Month adar2 = new Month(29, -7);
-		d = this.addMonthDays(adar2, d);
+		this.addMonthDays(adar2);
 		year.addMonth(adar2);
 
-		return addYearEnd(year, d);
+		this.addYearEnd(year);
 	}
 
-	private int addTisrei(Year year, int d) {
+	private void addTisrei(Year year) {
 		Month tishrei = new Month(30, -1);
-		d = this.addMonthDays(tishrei, d);
+		this.addMonthDays(tishrei);
 		year.addMonth(tishrei);
-
-		return d;
 	}
 
-	private int addTevetShvat(Year year, int d) {
+	private void addTevetShvat(Year year) {
 		Month tevet = new Month(29, -4);
-		d = this.addMonthDays(tevet, d);
+		this.addMonthDays(tevet);
 		year.addMonth(tevet);
 
 		Month shvat = new Month(30, -5);
-		d = this.addMonthDays(shvat, d);
+		this.addMonthDays(shvat);
 		year.addMonth(shvat);
-
-		return d;
 	}
 
-	private int addYearEnd(Year year, int d) {
+	private void addYearEnd(Year year) {
 		Month nissan = new Month(30, -8);
-		d = this.addMonthDays(nissan, d);
+		this.addMonthDays(nissan);
 		year.addMonth(nissan);
 
 		Month iyar = new Month(29, -9);
-		d = this.addMonthDays(iyar, d);
+		this.addMonthDays(iyar);
 		year.addMonth(iyar);
 
 		Month sivan = new Month(30, -10);
-		d = this.addMonthDays(sivan, d);
+		this.addMonthDays(sivan);
 		year.addMonth(sivan);
 
 		Month tamuz = new Month(29, -11);
-		d = this.addMonthDays(tamuz, d);
+		this.addMonthDays(tamuz);
 		year.addMonth(tamuz);
 
 		Month av = new Month(30, -12);
-		d = this.addMonthDays(av, d);
+		this.addMonthDays(av);
 		year.addMonth(av);
 
 		Month ellul = new Month(30, -13);
-		d = this.addMonthDays(ellul, d);
-		year.addMonth(ellul);
-
-		return d;		
+		this.addMonthDays(ellul);
+		year.addMonth(ellul);		
 	}
 }
