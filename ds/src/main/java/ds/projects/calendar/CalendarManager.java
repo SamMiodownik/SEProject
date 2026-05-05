@@ -64,10 +64,13 @@ public class CalendarManager{
 		this.currentYearHebrew++;
 	}
 
-	// peram month, startDay
-	private void addMonthDays(Month month) {
+	// peram month
+	private void addMonthDays(Month month, int hebrewMonth, int hebrewYear) {
 		for (int i=0; i<month.getDays().length; i++) {
 			Day day = new Day(this.d);
+			day.setHebrewYear(hebrewYear.getYear());
+			day.setHebrewMonth(hebrewMonth);
+			day.setHebrewDay(i + 1);
 			month.addDay(day);
 			this.englishCallendarAdd(day);
 			this.d++;
@@ -94,6 +97,9 @@ public class CalendarManager{
 			month = year[this.currentMonthEnglish].getDays();
 			this.currentDayEnglish = 0;
 		}
+		hebrewDay.setEnglishDay(this.currentDayEnglish + 1);
+		hebrewMonth.setEnglishMonth(currentMonthEnglish + 1);
+		hebrewYear.setEnglishYear(this.currentYearEnglish +1);
 		month[this.currentDayEnglish] = hebrewDay;
 		this.currentDayEnglish ++;
 	}
@@ -241,15 +247,72 @@ public class CalendarManager{
 
 	// peram year, startDay
 	// return start day of next year
+
+	private void addLeapYear(Year year) {
+		this.addTevetShvat(year);
+
+		Month adar1 = new Month(29, -6);
+		this.addMonthDays(adar1, 6, year);
+		year.addMonth(adar1);
+
+		Month adar2 = new Month(29, -7);
+		this.addMonthDays(adar2, 7, year);
+		year.addMonth(adar2);
+
+		this.addYearEnd(year);
+	}
+
+	private void addTisrei(Year year) {
+		Month tishrei = new Month(30, -1);
+		this.addMonthDays(tishrei, 1, year);
+		year.addMonth(tishrei);
+	}
+
+	private void addTevetShvat(Year year) {
+		Month tevet = new Month(29, -4);
+		this.addMonthDays(tevet, 4, year);
+		year.addMonth(tevet);
+
+		Month shvat = new Month(30, -5);
+		this.addMonthDays(shvat, 5, year);
+		year.addMonth(shvat);
+	}
+
+	private void addYearEnd(Year year) {
+		Month nissan = new Month(30, -8);
+		this.addMonthDays(nissan, 8, year);
+		year.addMonth(nissan);
+
+		Month iyar = new Month(29, -9);
+		this.addMonthDays(iyar, 9, year);
+		year.addMonth(iyar);
+
+		Month sivan = new Month(30, -10);
+		this.addMonthDays(sivan, 10, year);
+		year.addMonth(sivan);
+
+		Month tamuz = new Month(29, -11);
+		this.addMonthDays(tamuz, 11, year);
+		year.addMonth(tamuz);
+
+		Month av = new Month(30, -12);
+		this.addMonthDays(av, 12, year);
+		year.addMonth(av);
+
+		Month ellul = new Month(30, -13);
+		this.addMonthDays(ellul, 13, year);
+		year.addMonth(ellul);		
+	}
+
 	private void addDeficientNonLeapYear(Year year) {
 		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		this.addMonthDays(cheshvan);
+		this.addMonthDays(cheshvan, 2, year);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(29, -3);
-		this.addMonthDays(kislev);
+		this.addMonthDays(kislev, 3, year);
 		year.addMonth(kislev);
 
 		this.addNonLeapYear(year);
@@ -259,11 +322,11 @@ public class CalendarManager{
 		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		this.addMonthDays(cheshvan);
+		this.addMonthDays(cheshvan, 2, year);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(29, -3);
-		this.addMonthDays(kislev);
+		this.addMonthDays(kislev, 3, year);
 		year.addMonth(kislev);
 
 		this.addLeapYear(year);
@@ -273,11 +336,11 @@ public class CalendarManager{
 		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		this.addMonthDays(cheshvan);
+		this.addMonthDays(cheshvan, 2, year);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		this.addMonthDays(kislev);
+		this.addMonthDays(kislev, 3, year);
 		year.addMonth(kislev);
 
 		this.addNonLeapYear(year);
@@ -287,11 +350,11 @@ public class CalendarManager{
 		this.addTisrei(year);
 
 		Month cheshvan = new Month(29, -2);
-		this.addMonthDays(cheshvan);
+		this.addMonthDays(cheshvan, 2, year);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		this.addMonthDays(kislev);
+		this.addMonthDays(kislev, 3, year);
 		year.addMonth(kislev);
 
 		this.addLeapYear(year);
@@ -301,11 +364,11 @@ public class CalendarManager{
 		this.addTisrei(year);
 
 		Month cheshvan = new Month(30, -2);
-		this.addMonthDays(cheshvan);
+		this.addMonthDays(cheshvan, 2, year);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		this.addMonthDays(kislev);
+		this.addMonthDays(kislev, 3, year);
 		year.addMonth(kislev);
 
 		this.addNonLeapYear(year);
@@ -315,11 +378,11 @@ public class CalendarManager{
 		this.addTisrei(year);
 
 		Month cheshvan = new Month(30, -2);
-		this.addMonthDays(cheshvan);
+		this.addMonthDays(cheshvan, 2, year);
 		year.addMonth(cheshvan);
 
 		Month kislev = new Month(30, -3);
-		this.addMonthDays(kislev);
+		this.addMonthDays(kislev, 3, year);
 		year.addMonth(kislev);
 
 		this.addLeapYear(year);
@@ -329,66 +392,10 @@ public class CalendarManager{
 		this.addTevetShvat(year);
 
 		Month adar = new Month(29, -7);
-		this.addMonthDays(adar);
+		this.addMonthDays(adar, 7, year);
 		year.addMonth(adar);
 
 		addYearEnd(year);
-	}
-
-	private void addLeapYear(Year year) {
-		this.addTevetShvat(year);
-
-		Month adar1 = new Month(29, -6);
-		this.addMonthDays(adar1);
-		year.addMonth(adar1);
-
-		Month adar2 = new Month(29, -7);
-		this.addMonthDays(adar2);
-		year.addMonth(adar2);
-
-		this.addYearEnd(year);
-	}
-
-	private void addTisrei(Year year) {
-		Month tishrei = new Month(30, -1);
-		this.addMonthDays(tishrei);
-		year.addMonth(tishrei);
-	}
-
-	private void addTevetShvat(Year year) {
-		Month tevet = new Month(29, -4);
-		this.addMonthDays(tevet);
-		year.addMonth(tevet);
-
-		Month shvat = new Month(30, -5);
-		this.addMonthDays(shvat);
-		year.addMonth(shvat);
-	}
-
-	private void addYearEnd(Year year) {
-		Month nissan = new Month(30, -8);
-		this.addMonthDays(nissan);
-		year.addMonth(nissan);
-
-		Month iyar = new Month(29, -9);
-		this.addMonthDays(iyar);
-		year.addMonth(iyar);
-
-		Month sivan = new Month(30, -10);
-		this.addMonthDays(sivan);
-		year.addMonth(sivan);
-
-		Month tamuz = new Month(29, -11);
-		this.addMonthDays(tamuz);
-		year.addMonth(tamuz);
-
-		Month av = new Month(30, -12);
-		this.addMonthDays(av);
-		year.addMonth(av);
-
-		Month ellul = new Month(30, -13);
-		this.addMonthDays(ellul);
-		year.addMonth(ellul);		
 	}
 
 	public void addEventToTrie(String eventTitle, Day day){

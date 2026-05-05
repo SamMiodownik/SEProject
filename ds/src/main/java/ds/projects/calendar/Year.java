@@ -29,4 +29,8 @@ public class Year{
 	public Month[] getMonths(){
 		return this.months;
 	}
+
+	public int getYear() {
+		return this.name;
+	}
 }
