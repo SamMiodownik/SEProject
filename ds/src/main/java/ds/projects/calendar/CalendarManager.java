@@ -28,12 +28,14 @@ public class CalendarManager{
 	private boolean previousYearWasALeapYear = true;
 	private Year[] englishYears;
 	private Year[] hebrewYears;
+	private EventTrie trie;
 
 	public CalendarManager() {
 		englishYears = new Year[10];
 		hebrewYears = new Year[10];
 		this.createFirstEnglishYear();
 		this.createFirstHebrewYear();
+		trie = new EventTrie();
 	}
 
 	private Year[] doubleArray(Year[] oldYear) {
@@ -383,5 +385,12 @@ public class CalendarManager{
 		Month ellul = new Month(30, -13);
 		this.addMonthDays(ellul);
 		year.addMonth(ellul);		
+	}
+
+	public void addEventToTrie(String eventTitle, Day day){
+		this.trie.put(eventTitle, day);
+	}
+	public void searchForEvent(String eventTitle){
+		this.trie.get(eventTitle);
 	}
 }
