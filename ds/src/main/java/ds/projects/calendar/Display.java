@@ -225,9 +225,9 @@ public class Display {
 
 	private void addRecurringEvent(PersonalEvent evt){
 		System.out.println("Please choose from the following recurring event options:");
-		System.out.println("1. Add an event on a specific day of the Hebrew year.");
-		System.out.println("2. Add an event on a specific day of the English year.");
-		System.out.println("3. Add an event on a specific day of the Hebrew month.");
+		System.out.println("1. Add an event on a specific day of the English year.");
+		System.out.println("2. Add an event on a specific day of the Hebrew year.");
+		System.out.println("3. Add an event on a specific day of the English month.");
 		System.out.println("4. Add an event on a specific day of the Hebrew month.");
 		System.out.println("5. Add an event to a specific day of the week.");
 		int option = scannerOptions(1, 5);
@@ -238,13 +238,13 @@ public class Display {
 			recurringEventByYear(2, evt);
 		}
 		if(option == 3){
-			recurringEventByMonth(1, evt); //Haven't created this method yet!
+			recurringEventByMonth(1, evt);
 		}
 		if(option == 4){
-			recurringEventByMonth(2, evt); //Haven't created this method yet!
+			recurringEventByMonth(2, evt);
 		}
 		if(option == 5){
-			recurringEventByWeek(evt); //Haven't created this method yet!
+			recurringEventByWeek(evt);
 		}
 	}
 	private void recurringEventByYear(int englishOrHebrew, PersonalEvent evt){
@@ -271,6 +271,38 @@ public class Display {
 				if(year.getMonths()[monthIndex].getDays()[dayIndex] != null){
 					addEvent(year.getMonths()[monthIndex].getDays()[dayIndex], evt);
 				}
+			}
+		}
+	}
+	private void recurringEventByMonth(int englishOrHebrew, PersonalEvent evt){
+		System.out.println("Which day of the month would you like to add a recurring event to?");
+		int day;
+		Year[] years = (englishOrHebrew == 1) ? cm.getEnglishYears : cm.getHebrewYears;
+		int = scannerOptions(1,31) -1;
+		for(Year year : years){
+			for(Month month : years.getMonths()){
+				if(month.getDays().length - 1 <= day){
+					addEvent(month.getDays()[day], evt);
+				}
+			}
+		}
+	}
+	//This is not very efficient- if I have more time I'll edit later.
+	private void recurringEventByWeek(PersonalEvent evt){
+		System.out.println("Which day of the week would you like to add a recurring event to? Please answer in number form.");
+		int dayOfWeek = scannerOptions(1, 7);
+		int x = 0;
+		Year[] years = cm.getHebrewYears();
+		while(years.length > x){
+			for(Year year : years){
+				for(Month month : year.getMonths()){
+					for(Day day : month.getDays()){
+						if(day.getDayNum() = dayOfWeek){
+							addEvent(day, evt);
+						}
+					}
+				}
+				x++;
 			}
 		}
 	}
