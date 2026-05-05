@@ -6,17 +6,18 @@ import ds.projects.calendar.events.PersonalEvent;
 public class Display {
 	CalendarManager cm;
 	Scanner scanner;
+	int latestHebrewYear = 5790;
 	public static void main(String args[]) {
 		cm = new CalendarManager();
 		scanner = new Scanner(System.in);
 		welcome();
 		giveOptions();
 	}
-	//Incomplete method... Can't finish this until I know how years are initially added.
+
 	private void welcome(){
 		System.out.println("Welcome to the Hebrew-English Lunar-Solar Calendar.\n");
 		System.out.println("Adding Calendar years...\n");
-		cm.addYears(); //How many years are we adding and where are we starting from?
+		cm.addYears(5790);
 	}
 	//Gives options for next user operation
 	private void giveOptions(){
