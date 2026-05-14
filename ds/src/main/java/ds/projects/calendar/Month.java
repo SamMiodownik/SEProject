@@ -12,7 +12,7 @@ public class Month{
 
 	//positve if english negative if hebrew
 	public Month(int length, int month){
-		this.days = new Day[lenght];
+		this.days = new Day[length];
 		this.monthName = switch (month) {
 			case 1 -> Months.JANUARY;
 			case 2 -> Months.FEBRUARY;
@@ -46,7 +46,7 @@ public class Month{
 
 	protected void addDay(Day day) {
 		int index = this.findNextDay();
-		this.days[index] = month;
+		this.days[index] = day;
 	}
 
 	private int findNextDay(){
@@ -61,8 +61,8 @@ public class Month{
 		return this.days;
 	}
 
-	public int lenght() {
-		return this.days.lenght;
+	public int length() {
+		return this.days.length;
 	}
 
 }
