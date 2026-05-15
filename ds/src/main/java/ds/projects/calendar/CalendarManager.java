@@ -65,7 +65,7 @@ public class CalendarManager{
 	}
 
 	// peram month
-	private void addMonthDays(Month month, int hebrewMonth, int hebrewYear) {
+	private void addMonthDays(Month month, int hebrewMonth, Year hebrewYear) {
 		for (int i=0; i<month.getDays().length; i++) {
 			Day day = new Day(this.d);
 			day.setHebrewYear(hebrewYear.getYear());
