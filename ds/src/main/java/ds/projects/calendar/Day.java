@@ -4,9 +4,9 @@ import ds.projects.calendar.events.Event;
 
 public class Day{
 
-	protected EnglishDayOfWeek englishDay;
+	protected EnglishDayOfWeek englishDayOfWeek;
 
-	protected HebrewDayOfWeek hebrewDay;
+	protected HebrewDayOfWeek hebrewDayOfWeek;
 
 	private Event[] events;
 
@@ -18,7 +18,7 @@ public class Day{
 
 	private int hebrewYear;
 
-	private int hebrewMonth
+	private int hebrewMonth;
 
 	private boolean adarSheni;
 
@@ -33,38 +33,38 @@ public class Day{
 	public Day(int dayOfWeek){
 		switch (dayOfWeek) {
 			case 0:
-				this.englishDay = EnglishDayOfWeek.SUNDAY;
-				this.hebrewDay = HebrewDayOfWeek.YOM_RISHON;
+				this.englishDayOfWeek = EnglishDayOfWeek.SUNDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.YOM_RISHON;
 				this.dayNum = 1;
 				break;
 			case 1:
-				this.englishDay = EnglishDayOfWeek.MONDAY;
-				this.hebrewDay = HebrewDayOfWeek.YOM_SHENI;
+				this.englishDayOfWeek = EnglishDayOfWeek.MONDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.YOM_SHENI;
 				this.dayNum = 2;
 				break;
 			case 2:
-				this.englishDay = EnglishDayOfWeek.TUESDAY;
-				this.hebrewDay = HebrewDayOfWeek.YOM_SHLISHI;
+				this.englishDayOfWeek = EnglishDayOfWeek.TUESDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.YOM_SHLISHI;
 				this.dayNum = 3;
 				break;
 			case 3:
-				this.englishDay = EnglishDayOfWeek.WENDESDAY;
-				this.hebrewDay = HebrewDayOfWeek.YOM_REVII;
+				this.englishDayOfWeek = EnglishDayOfWeek.WENDESDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.YOM_REVII;
 				this.dayNum = 4;
 				break;
 			case 4:
-				this.englishDay = EnglishDayOfWeek.THURSDAY;
-				this.hebrewDay = HebrewDayOfWeek.YOM_CHAMISHI;
+				this.englishDayOfWeek = EnglishDayOfWeek.THURSDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.YOM_CHAMISHI;
 				this.dayNum = 5;
 				break;
 			case 5:
-				this.englishDay = EnglishDayOfWeek.FRIDAY;
-				this.hebrewDay = HebrewDayOfWeek.YOM_SHISHI;
+				this.englishDayOfWeek = EnglishDayOfWeek.FRIDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.YOM_SHISHI;
 				this.dayNum = 6;
 				break;
 			case 6:
-				this.englishDay = EnglishDayOfWeek.SATUDAY;
-				this.hebrewDay = HebrewDayOfWeek.SHABBOS;
+				this.englishDayOfWeek = EnglishDayOfWeek.SATUDAY;
+				this.hebrewDayOfWeek = HebrewDayOfWeek.SHABBOS;
 				this.dayNum = 7;
 				break;
 		}
@@ -122,20 +122,21 @@ public class Day{
 	}
 
 	public String toString(){
-		String hebrewMonthString = String.parseString(this.hebrewMonth);
+		String hebrewMonthString = String.valueOf(this.hebrewMonth);
 		if(adarSheni){
 			hebrewMonthString += "b";
 		}
-		String str = this.englishMonth + "/" + this.englishDay + "/" + this.englishYear + "			" + this.hebrewDay + "/" + this.hebrewMonthString + "/" + this.hebrewYear+"\n";
+		String str = this.englishMonth + "/" + this.englishDay + "/" + this.englishYear + "			" + this.hebrewDay + "/" + hebrewMonthString + "/" + this.hebrewYear+"\n";
 		str += "Events:\n" + printevents();
 	}
 	private String printevents(){
-		String str = ""
+		String str = "";
 		if(events[0] == null){
 			str += ("	This day has no events.");
 		}else{
+
 			for(Event evt : events){
-				str += "	" + evt.getTitle(); +"/n";
+				str += "	" + evt.getTitle() +"/n";
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package ds.projects.calendar;
 
 import java.util.ArrayList;
 import ds.projects.calendar.events.Event;
+import java.util.Set;
 
 
 public class CalendarManager{
@@ -232,11 +233,11 @@ public class CalendarManager{
 		}
 	}
 
-	public Year[] getEnglishYearsYears(){
+	public Year[] getEnglishYears(){
 		return this.englishYears;
 	}
 
-	public Year[] getHebrewYearsYears(){
+	public Year[] getHebrewYears(){
 		return this.hebrewYears;
 	}
 
@@ -401,7 +402,7 @@ public class CalendarManager{
 	public void addEventToTrie(String eventTitle, Day day){
 		this.trie.put(eventTitle, day);
 	}
-	public void searchForEvent(String eventTitle){
-		this.trie.get(eventTitle);
+	public Set<Day> searchForEvent(String eventTitle){
+		return this.trie.get(eventTitle);
 	}
 }

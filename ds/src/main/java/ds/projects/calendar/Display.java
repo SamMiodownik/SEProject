@@ -4,9 +4,10 @@ import java.util.*;
 import ds.projects.calendar.events.PersonalEvent;
 
 public class Display {
-	CalendarManager cm;
-	Scanner scanner;
-	int latestHebrewYear = 5790;
+	private static CalendarManager cm;
+	private static Scanner scanner;
+	private static int latestHebrewYear = 5790;
+
 	public static void main(String args[]) {
 		cm = new CalendarManager();
 		scanner = new Scanner(System.in);
@@ -14,13 +15,13 @@ public class Display {
 		giveOptions();
 	}
 
-	private void welcome(){
+	private static void welcome(){
 		System.out.println("Welcome to the Hebrew-English Lunar-Solar Calendar.\n");
 		System.out.println("Adding Calendar years...\n");
 		cm.addYears(5790);
 	}
 	//Gives options for next user operation
-	private void giveOptions(){
+	private static void giveOptions(){
 		System.out.println("Would you like to:\n1. View a specific day.\n2. Access a certain event's day.\n3. Add an event.\nPlease answer by typing \"1\" \"2\" or \"3\".");
 		int x = scannerOptions(1, 3);
 		if(x == 1){
@@ -35,11 +36,18 @@ public class Display {
 
 	}
 	//Chooses an int option from the command line in range first-last
-	private int scannerOptions(int first, int last){
+	private static int scannerOptions(int first, int last){
 		int option;
 		while(true){
 			if(scanner.hasNextInt()){
-				option = scanner.next();
+				while(option == 0){
+					String string = scanner.next();
+					try{
+						option = Integer.parseInt(string);
+					}catch(NumberFormatException e){
+						System.out.println("You must enter a valid integer.");
+					}
+				}
 				if(option < first || option > last){
 					System.out.println("Please enter a number between " + first + " and " + last + ".");
 				}else{
@@ -51,7 +59,7 @@ public class Display {
 		}
 	}
 
-	private void getDay(){
+	private static void getDay(){
 		System.out.println("Would you like to access:\n1. An english date\n2. A hebrew date?");
 		int option = scannerOptions(1, 2);
 		if(option == 1){
@@ -61,13 +69,20 @@ public class Display {
 		}
 	}
 
-	private void getDayEnglish(){
+	private static void getDayEnglish(){
 		System.out.println("Please enter an English year > 2015");
 		int year;
 		boolean valid = false;
 		while(!valid){
 			if(scanner.hasNextInt()){
-				year = scanner.next();
+				while(year == 0){
+					try{
+						String string = scanner.next();
+						year = Integer.parseInt(string);
+					}catch(NumberFormatException e){
+						System.out.println("Please enter a valid year.");
+					}
+				}
 				if(year < 2016){
 					System.out.println("Invalid year. Please enter a year > 2015");
 				}else{
@@ -80,34 +95,47 @@ public class Display {
 		getDayMonth(1, year - 2016);
 	}
 
-	private void getDayMonth(int englishOrHebrew, int index){
+	private static void getDayMonth(int englishOrHebrew, int index){
 		Year[] years;
 		if(englishOrHebrew == 1){
-			years = cm.getHebrewYears(); //Need to make this method in CalendarManager!
+			years = cm.getHebrewYears();
 		}else{
-			years = cm.getEnglishYears(); //Need to make this method in CalendarManager!
+			years = cm.getEnglishYears();
 		}
-		if(index > years.length-1){
-			//Not sure how this is going to be implemented yet but we will have to generate more years!
+		if(index > latestHebrewYear - 5777){
+			latestHebrewYear = addYears(index);
 		}
 		System.out.println("Please enter which month you would like to access in number form (Ex: \"3\", \"11\".");
-		int monthIndex = scannerOptions(1, years[index].length) - 1;
+		int monthIndex = scannerOptions(1, years[index].getMonths().length) - 1;
 		getDayFinal(years[index].getMonths()[monthIndex]);
 	}
 
-	private void getDayFinal(Month month){
-		System.out.println("Please enter which day of the month you would like to view.");
-		int day = scannerOptions(1, month.length) -1;
-		System.out.println(month[day]); // Need to make a toString method for day to allow a print!
+	private static int addYears(int index){
+		int newYear = latestHebrewYear + (index - (latestHebrewYear - 5777));
+		cm.addYears(newYear);
+		return newYear;
 	}
 
-	private void getDayHebrew(){
+	private static void getDayFinal(Month month){
+		System.out.println("Please enter which day of the month you would like to view.");
+		int day = scannerOptions(1, month.getDays().length) -1;
+		System.out.println(month.getDays()[day]); // Need to make a toString method for day to allow a print!
+	}
+
+	private static void getDayHebrew(){
 		System.out.println("Please enter a Hebrew year > 5776");
 		int year;
 		boolean valid = false;
 		while(!valid){
 			if(scanner.hasNextInt()){
-				year = scanner.next();
+				while(year == 0){
+					try{
+						String string = scanner.next();
+						year = Integer.parseInt(string);
+					}catch(NumberFormatException e){
+						System.out.println("Please enter a valid year.");
+					}
+				}
 				if(year < 5777){
 					System.out.println("Invalid year. Please enter a year > 5776");
 				}else{
@@ -120,7 +148,7 @@ public class Display {
 		getDayMonth(2, year - 5777);
 	}
 
-	private void getDayByEvent(){
+	private static void getDayByEvent(){
 		System.out.println("Please enter an event, or an event prefix. (Ex: \"Basketball practice\", \"Baske\".");
 		String event = scanner.next();
 		Set<Day> days = cm.searchForEvent(event); //Create this method in CalendarManager!
@@ -139,7 +167,7 @@ public class Display {
 		}
 	}
 
-	private void addEvent(){
+	private static void addEvent(){
 		PersonalEvent evt = new PersonalEvent();
 		System.out.println("Please enter the title of the event you would like to add");
 		evt.setTitle(scanner.next());
@@ -150,29 +178,36 @@ public class Display {
 			evt.setDescription(scanner.next());
 		}
 		System.out.println("Would you like to:\n1. Add the event to a specific day\n2. Make a recurring event?");
-		int option = scannerOptions(1, 2);
-		if(option == 1){
+		int option2 = scannerOptions(1, 2);
+		if(option2 == 1){
 			getDayForEvent(evt);
 		}else{
 			addRecurringEvent(evt);
 		}
 	}
-	private void getDayForEvent(PersonalEvent evt){
+	private static void getDayForEvent(PersonalEvent evt){
 		System.out.println("Would you like to add an event to:\n1. An english date\n2. A hebrew date?");
 		int option = scannerOptions(1, 2);
 		if(option == 1){
 			addEventEnglish(evt);
 		}else{
-			addEventHebrew(evy);
+			addEventHebrew(evt);
 		}
 	}
-	private void addEventEnglish(PersonalEvent evt){
+	private static void addEventEnglish(PersonalEvent evt){
 		System.out.println("Please enter an English year > 2015");
 		int year;
 		boolean valid = false;
 		while(!valid){
 			if(scanner.hasNextInt()){
-				year = scanner.next();
+				while(year == 0){
+					try{
+						String string = scanner.next();
+						year = Integer.parseInt(string);
+					}catch(NumberFormatException e){
+						System.out.println("Please enter a valid year.");
+					}
+				}
 				if(year < 2016){
 					System.out.println("Invalid year. Please enter a year > 2015");
 				}else{
@@ -184,13 +219,20 @@ public class Display {
 		}
 		addEventMonth(1, year - 2016, evt);
 	}
-	private void addEventHebrew(PersonalEvent evt){
+	private static void addEventHebrew(PersonalEvent evt){
 		System.out.println("Please enter a Hebrew year > 5776");
 		int year;
 		boolean valid = false;
 		while(!valid){
 			if(scanner.hasNextInt()){
-				year = scanner.next();
+				while(year == 0){
+					try{
+						String string = scanner.next();
+						year = Integer.parseInt(string);
+					}catch(NumberFormatException e){
+						System.out.println("Please enter a valid year.");
+					}
+				}
 				if(year < 5777){
 					System.out.println("Invalid year. Please enter a year > 5776");
 				}else{
@@ -202,28 +244,23 @@ public class Display {
 		}
 		addEventMonth(2, year - 5777, evt);
 	}
-	private void addEventMonth(int englishOrHebrew, int index, PersonalEvent evt){
-		Year[] years;
-		if(englishOrHebrew == 1){
-			years = cm.getHebrewYears(); //Need to make this method in CalendarManager!
-		}else{
-			years = cm.getEnglishYears(); //Need to make this method in CalendarManager!
-		}
+	private static void addEventMonth(int englishOrHebrew, int index, PersonalEvent evt){
+		Year[] years = (englishOrHebrew == 1) ? cm.getHebrewYears() : cm.getEnglishYears();
 		System.out.println("Please enter which month you would like to add an event to in number form. (Ex: \"3\" -March, \"11\"-November)");
-		int monthIndex = scannerOptions(1, years[index].length) - 1;
+		int monthIndex = scannerOptions(1, years[index].getMonths().length) - 1;
 		getEventDay(years[index].getMonths()[monthIndex], evt);
 	}
-	private void getEventDay(Month month, PersonalEvent evt){
+	private static void getEventDay(Month month, PersonalEvent evt){
 		System.out.println("Please enter which day of the month you would like to add an event to.");
-		Day day = month[scannerOptions(1, month.length) -1;];
+		Day day = month.getDays()[scannerOptions(1, month.getDays().length) -1];
 		addEvent(day, evt);
 	}
-	private void addEvent(Day day, PersonalEvent evt){
+	private static void addEvent(Day day, PersonalEvent evt){
 		day.addEvent(evt);
 		cm.addEventToTrie(evt.getTitle(), day); //Need to make this method in CalendarManager: addEventToTrie(String, Day)
 	}
 
-	private void addRecurringEvent(PersonalEvent evt){
+	private static void addRecurringEvent(PersonalEvent evt){
 		System.out.println("Please choose from the following recurring event options:");
 		System.out.println("1. Add an event on a specific day of the English year.");
 		System.out.println("2. Add an event on a specific day of the Hebrew year.");
@@ -247,9 +284,9 @@ public class Display {
 			recurringEventByWeek(evt);
 		}
 	}
-	private void recurringEventByYear(int englishOrHebrew, PersonalEvent evt){
+	private static void recurringEventByYear(int englishOrHebrew, PersonalEvent evt){
 		System.out.println("Which month would you like to add the yearly event to?");
-		int monthIndex
+		int monthIndex;
 		if(englishOrHebrew == 1){
 			monthIndex = scannerOptions(1, 12) -1;
 		}else{
@@ -257,7 +294,7 @@ public class Display {
 		}
 		recurringEventByYearChooseDay(englishOrHebrew, monthIndex, evt);
 	}
-	private void recurringEventByYearChooseDay(int englishOrHebrew, int monthIndex, PersonalEvent evt){
+	private static void recurringEventByYearChooseDay(int englishOrHebrew, int monthIndex, PersonalEvent evt){
 		System.out.println("Please choose a day in the month to add a recurring event to.");
 		int dayIndex = scannerOptions(1, 31) - 1;
 		Year[] years;
@@ -274,13 +311,12 @@ public class Display {
 			}
 		}
 	}
-	private void recurringEventByMonth(int englishOrHebrew, PersonalEvent evt){
+	private static void recurringEventByMonth(int englishOrHebrew, PersonalEvent evt){
 		System.out.println("Which day of the month would you like to add a recurring event to?");
-		int day;
-		Year[] years = (englishOrHebrew == 1) ? cm.getEnglishYears : cm.getHebrewYears;
-		int = scannerOptions(1,31) -1;
+		Year[] years = (englishOrHebrew == 1) ? cm.getEnglishYears() : cm.getHebrewYears();
+		int day = scannerOptions(1,31) -1;
 		for(Year year : years){
-			for(Month month : years.getMonths()){
+			for(Month month : year.getMonths()){
 				if(month.getDays().length - 1 <= day){
 					addEvent(month.getDays()[day], evt);
 				}
@@ -288,7 +324,7 @@ public class Display {
 		}
 	}
 	//This is not very efficient- if I have more time I'll edit later.
-	private void recurringEventByWeek(PersonalEvent evt){
+	private static void recurringEventByWeek(PersonalEvent evt){
 		System.out.println("Which day of the week would you like to add a recurring event to? Please answer in number form.");
 		int dayOfWeek = scannerOptions(1, 7);
 		int x = 0;
@@ -297,7 +333,7 @@ public class Display {
 			for(Year year : years){
 				for(Month month : year.getMonths()){
 					for(Day day : month.getDays()){
-						if(day.getDayNum() = dayOfWeek){
+						if(day.getDayNum() == dayOfWeek){
 							addEvent(day, evt);
 						}
 					}

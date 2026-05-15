@@ -15,7 +15,7 @@ public class Year{
 
 	protected void addMonth(Month month){
 		int index = this.findNextMonth();
-		months[number] = month;
+		months[index] = month;
 	}
 
 	private int findNextMonth(){
