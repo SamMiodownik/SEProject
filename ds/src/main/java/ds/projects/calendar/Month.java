@@ -40,6 +40,7 @@ public class Month{
 			case -11 -> Months.TAMUZ;
 			case -12 -> Months.AV;
 			case -13 -> Months.ELLUL;
+			default -> throw new IllegalArgumentException("that is not a valid month");
 		};
 
 	}

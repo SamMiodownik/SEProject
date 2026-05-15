@@ -128,6 +128,7 @@ public class Day{
 		}
 		String str = this.englishMonth + "/" + this.englishDay + "/" + this.englishYear + "			" + this.hebrewDay + "/" + hebrewMonthString + "/" + this.hebrewYear+"\n";
 		str += "Events:\n" + printevents();
+		return str;
 	}
 	private String printevents(){
 		String str = "";
@@ -139,5 +140,6 @@ public class Day{
 				str += "	" + evt.getTitle() +"/n";
 			}
 		}
+		return str;
 	}
 }

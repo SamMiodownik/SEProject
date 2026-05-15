@@ -99,8 +99,8 @@ public class CalendarManager{
 			this.currentDayEnglish = 0;
 		}
 		hebrewDay.setEnglishDay(this.currentDayEnglish + 1);
-		hebrewMonth.setEnglishMonth(currentMonthEnglish + 1);
-		hebrewYear.setEnglishYear(this.currentYearEnglish +1);
+		hebrewDay.setEnglishMonth(this.currentMonthEnglish + 1);
+		hebrewDay.setEnglishYear(this.currentYearEnglish +1);
 		month[this.currentDayEnglish] = hebrewDay;
 		this.currentDayEnglish ++;
 	}
